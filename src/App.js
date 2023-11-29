@@ -45,7 +45,7 @@ function URLInput() {
 
   return (
     <div className="container">
-      <h1>PulseChain URL Reformat Tool</h1>
+      <h1 className="title">PulseChain URL Reformat Tool</h1>
       <input
         type="text"
         value={inputURL}
@@ -60,12 +60,12 @@ function URLInput() {
       {fetchingData && <p>Fetching data from version.json...</p>}
       {fetchDataError && <p>{fetchDataError}</p>}
       {convertedURL && !fetchingData && !fetchDataError && (
-        <a href={convertedURL} target="_blank" rel="noopener noreferrer">
+        <a href={convertedURL} target="_blank" rel="noopener noreferrer" className="result">
           {convertedURL}
         </a>
       )}
       <footer className="footer">
-        Made by <a href="https://twitter.com/Poseidon_5555" target="_blank" rel="noopener noreferrer">Poseidon</a>
+        Made by <a href="https://twitter.com/Poseidon_5555" target="_blank" rel="noopener noreferrer" className="poseidon-link">Poseidon</a>
         <a href="https://twitter.com/Poseidon_5555" target="_blank" rel="noopener noreferrer">
           <img src="poseidon_logo.png" alt="Poseidon Logo" className="logo" />
         </a>
