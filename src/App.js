@@ -37,7 +37,15 @@ function URLInput() {
       // Modify URL by adding "#/" after "dweb.link/"
       modifiedURL = inputURL.replace(/(dweb.link\/)/, '$1#/');
       setConvertedURL(modifiedURL); // Update state with the converted URL
-    } else {
+    }
+    // Check if URL matches EVM transaction pattern
+    else if (inputURL.match(/^0x[a-fA-F0-9]{64}$/)) {
+      // Modify URL for EVM transaction
+      modifiedURL = `https://bafybeicb2hlad6zs4kc4yvn5xbbzti6krjtpoxrysg42d4e5s5oubbipum.ipfs.dweb.link/#/tx/${inputURL}`;
+      setConvertedURL(modifiedURL); // Update state with the converted URL
+      setFetchDataError(''); // Clear any error message
+    }
+    else {
       setConvertedURL(inputURL); // No modification needed, set as it is
       setFetchDataError(''); // Clear any error message
     }
