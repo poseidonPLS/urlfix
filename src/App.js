@@ -12,42 +12,76 @@ function URLInput() {
 
     // Check if URL starts with "https://scan.pulsechain.com/"
     if (inputURL.startsWith('https://scan.pulsechain.com/')) {
-      setFetchingData(true); // Set fetching data to true before fetching
-      setFetchDataError(''); // Clear any previous fetch error
+      setFetchingData(true);
+      setFetchDataError('');
 
       fetch('https://scan.pulsechain.com/version.json')
         .then(response => response.json())
         .then(data => {
-          console.log('Fetched data:', data); // Log the fetched data
-          const ipfsAddress = data.ipfs_address; // Extract ipfs_address from version.json
-          // Modify URL according to the format specified
+          const ipfsAddress = data.ipfs_address;
           modifiedURL = `http://${ipfsAddress}.ipfs.dweb.link/#/${inputURL.split('https://scan.pulsechain.com/')[1]}`;
-          setConvertedURL(modifiedURL); // Update state with the converted URL
+          setConvertedURL(modifiedURL);
         })
         .catch(error => {
-          console.error('Error fetching data:', error); // Log any fetch errors
-          setFetchDataError('Error fetching data. Please try again.'); // Set fetch error state
+          console.error('Error fetching data:', error);
+          setFetchDataError('Error fetching data. Please try again.');
         })
         .finally(() => {
-          setFetchingData(false); // Set fetching data back to false after fetch completes
+          setFetchingData(false);
         });
     }
     // Check if URL contains "dweb.link/"
     else if (inputURL.includes('dweb.link/')) {
-      // Modify URL by adding "#/" after "dweb.link/"
       modifiedURL = inputURL.replace(/(dweb.link\/)/, '$1#/');
-      setConvertedURL(modifiedURL); // Update state with the converted URL
+      setConvertedURL(modifiedURL);
     }
     // Check if URL matches EVM transaction pattern
     else if (inputURL.match(/^0x[a-fA-F0-9]{64}$/)) {
-      // Modify URL for EVM transaction
       modifiedURL = `https://bafybeicb2hlad6zs4kc4yvn5xbbzti6krjtpoxrysg42d4e5s5oubbipum.ipfs.dweb.link/#/tx/${inputURL}`;
-      setConvertedURL(modifiedURL); // Update state with the converted URL
-      setFetchDataError(''); // Clear any error message
+      setConvertedURL(modifiedURL);
+      setFetchDataError('');
+    }
+    else if (inputURL.match(/^0x[a-fA-F0-9]{64}$/)) {
+      setFetchingData(true);
+      setFetchDataError('');
+
+      fetch('https://scan.pulsechain.com/version.json')
+        .then(response => response.json())
+        .then(data => {
+          const ipfsAddress = data.ipfs_address;
+          modifiedURL = `http://${ipfsAddress}.ipfs.dweb.link/#/tx/${inputURL}`;
+          setConvertedURL(modifiedURL);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          setFetchDataError('Error fetching data. Please try again.');
+        })
+        .finally(() => {
+          setFetchingData(false);
+        });
+    }
+    else if (inputURL.match(/^0x[a-fA-F0-9]{40}$/)) {
+      setFetchingData(true);
+      setFetchDataError('');
+
+      fetch('https://scan.pulsechain.com/version.json')
+        .then(response => response.json())
+        .then(data => {
+          const ipfsAddress = data.ipfs_address;
+          modifiedURL = `http://${ipfsAddress}.ipfs.dweb.link/#/address/${inputURL}`;
+          setConvertedURL(modifiedURL);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          setFetchDataError('Error fetching data. Please try again.');
+        })
+        .finally(() => {
+          setFetchingData(false);
+        });
     }
     else {
-      setConvertedURL(inputURL); // No modification needed, set as it is
-      setFetchDataError(''); // Clear any error message
+      setConvertedURL(inputURL);
+      setFetchDataError('');
     }
   };
 
