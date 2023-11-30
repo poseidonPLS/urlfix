@@ -79,6 +79,26 @@ function URLInput() {
           setFetchingData(false);
         });
     }
+        // Check if URL starts with "https://otter.pulsechain.com/"
+        if (inputURL.startsWith('https://otter.pulsechain.com/')) {
+          setFetchingData(true);
+          setFetchDataError('');
+    
+          fetch('https://scan.pulsechain.com/version.json')
+            .then(response => response.json())
+            .then(data => {
+              const ipfsAddress = data.ipfs_address;
+              modifiedURL = `http://${ipfsAddress}.ipfs.dweb.link/#/${inputURL.split('https://otter.pulsechain.com/')[1]}`;
+              setConvertedURL(modifiedURL);
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error);
+              setFetchDataError('Error fetching data. Please try again.');
+            })
+            .finally(() => {
+              setFetchingData(false);
+            });
+        }
     else {
       setConvertedURL(inputURL);
       setFetchDataError('');
